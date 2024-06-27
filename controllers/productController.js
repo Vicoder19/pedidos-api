@@ -75,7 +75,7 @@ async function getProductByName(req, res) {
   const { precoMin, descProd } = req.query;
 
   if (!(precoMin) && !(descProd)){
-    return res.status(404).json({});
+    return res.status(404).send('Product not found');
   }
 
   try {

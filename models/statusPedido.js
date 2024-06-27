@@ -1,7 +1,7 @@
 // models/orderStatus.js
 
 // Definição dos status de pedido como constantes
-const ORDER_STATUS = {
+const STATUS_PEDIDO = {
     PENDENTE: { code: 0, name: 'Pendente' },
     ACEITO: { code: 1, name: 'Aceito' },
     EM_PREPARACAO: { code: 2, name: 'Em Preparação' },
@@ -12,5 +12,5 @@ const ORDER_STATUS = {
     CANCELADO: { code: 7, name: 'Cancelado' },
   };
   
-  module.exports = ORDER_STATUS;
+  module.exports = STATUS_PEDIDO;
   

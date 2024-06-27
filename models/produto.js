@@ -2,7 +2,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const Product = sequelize.define('Product', {
+const Produto = sequelize.define('Produto', {
   prd_id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -18,11 +18,15 @@ const Product = sequelize.define('Product', {
   },
   cla_id: {
     type: DataTypes.INTEGER,
-    allowNull: true,
+    allowNull: false,        
+    references:{
+      model: 'classes',
+      key: 'cla_id'
+    }
   },
 }, {
   tableName:'produtos',
   timestamps: false,
 });
 
-module.exports = Product;
+module.exports = Produto;
