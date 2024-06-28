@@ -1,10 +1,10 @@
 // controllers/productController.js
 const { QueryTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const { Product } = require('../models');
+const { Product, Classe } = require('../models');
 
 const getProducts = async (req, res) => {
-  try {
+  try {    
     const products = await Product.findAll();
     res.json(products);
   } catch (err) {
@@ -15,11 +15,25 @@ const getProducts = async (req, res) => {
 
 const getProduct = async (req, res) => {
   const { id } = req.params;
-  try {
-    const product = await Product.findByPk(id);
+  try {    
+    
+    if (!Number.isInteger(Number(id))){
+      return res.status(400).send('Must be Integer');
+    }
+
+    const product = await Product.findByPk(id, {
+      include: [{
+        model: Classe,
+        as: 'classe',
+        attributes: ['cla_descricao']
+      }]
+
+    });
+
     if (!product) {
       return res.status(404).send('Product not found');
     }
+
     res.json(product);
   } catch (err) {
     console.error(err.message);
@@ -41,11 +55,18 @@ const createProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
   const { id } = req.params;
   const { descricao, preco } = req.body;
+
   try {
+    
+    if (!Number.isInteger(Number(id))){
+      return res.status(400).send('Must be Integer')  ;
+    }
+
     const product = await Product.findByPk(id);
     if (!product) {
       return res.status(404).send('Product not found');
     }
+
     product.descricao = descricao;
     product.preco = preco;
     await product.save();
@@ -58,11 +79,17 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
+
   try {
+    if (!Number.isInteger(Number(id))){
+      return res.status(400).send('Must be Integer')  ;
+    }
+
     const product = await Product.findByPk(id);
     if (!product) {
       return res.status(404).send('Product not found');
     }
+
     await product.destroy();
     res.json({ message: 'Product deleted' });
   } catch (err) {
