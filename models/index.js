@@ -27,7 +27,7 @@ ItemPedido.belongsTo(Pedido, {
   foreignKey: 'ped_id',
   targetKey: 'ped_id',
   as: 'pedido'
-})
+});
 
 const syncDatabase = async () => {
   try {

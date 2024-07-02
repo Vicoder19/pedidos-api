@@ -15,11 +15,7 @@ const Pedido = sequelize.define('Pedido', {
             modelName: 'Cliente',
             key: 'cli_id'
         }
-    },    
-
-    statusPed: {
-        type: STATUS_PEDIDO
-    },
+    },        
 
     end_id: {
         type: DataTypes.INTEGER,
@@ -29,7 +25,45 @@ const Pedido = sequelize.define('Pedido', {
         }
     },
 
+    ped_observacoes : {
+        type: DataTypes.STRING,        
+    },
 
+    ped_total_bruto: {
+        type : DataTypes.FLOAT,
+        allowNull: false
+    },
+
+    ped_taxa_entrega: {
+        type: DataTypes.FLOAT,
+        allowNull: false
+    },
+
+    ped_total_liq: {
+        type: DataTypes.FLOAT,
+        allowNull: false
+    },
+
+    ped_desconto: {
+        type: DataTypes.FLOAT,
+        allowNull: false
+    },
+
+    ped_status: {
+        type: STATUS_PEDIDO
+    },
+
+    ped_data_aceito: {
+        type: DataTypes.TIME        
+    },
+
+    fun_id: {
+        type: DataTypes.INTEGER,
+        references: {
+            modelName: 'Funcionario',
+            key: 'fun_id'
+        }
+    }
     
 }, {
     tableName: 'pedidos',

@@ -5,7 +5,7 @@ const { Product, Classe } = require('../models');
 
 const retornosHttp = require('../middleware/retornosHttp');
 
-const getProducts = async (req, res) => {
+const getProdutos = async (req, res) => {
   try {    
     const products = await Product.findAll();
     res.json(products);
@@ -14,7 +14,7 @@ const getProducts = async (req, res) => {
   }
 };
 
-const getProduct = async (req, res) => {
+const getProduto = async (req, res) => {
   const { id } = req.params;
   try {    
         
@@ -37,17 +37,17 @@ const getProduct = async (req, res) => {
   }
 };
 
-const createProduct = async (req, res) => {
+const createProduto = async (req, res) => {
   const { descricao, preco } = req.body;
   try {
     const product = await Product.create({ descricao, preco });
     res.status(201).json(product);
   } catch (err) {
-    retornosHttp.internalError(err, res);    
+    retornosHttp.internalError(err, res);
   }
 };
 
-const updateProduct = async (req, res) => {
+const updateProduto = async (req, res) => {
   const { id } = req.params;
   const { descricao, preco } = req.body;
 
@@ -67,7 +67,7 @@ const updateProduct = async (req, res) => {
   }
 };
 
-const deleteProduct = async (req, res) => {
+const deleteProduto = async (req, res) => {
   const { id } = req.params;
 
   try {    
@@ -123,10 +123,10 @@ async function getProductByName(req, res) {
 }
 
 module.exports = {
-  getProducts,
-  getProduct,
-  createProduct,
-  updateProduct,
-  deleteProduct,
+  getProdutos,
+  getProduto,
+  createProduto,
+  updateProduto,
+  deleteProduto,
   getProductByName,
 };

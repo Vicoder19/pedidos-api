@@ -19,7 +19,7 @@ const paramIsInteger = (req, res, next) => {
 }
 
 const badRequest = (res) => {
-    return res.status(400).send('Must be Integer');
+    return res.status(400).send('Bad Request');
 }
 
 module.exports = {
