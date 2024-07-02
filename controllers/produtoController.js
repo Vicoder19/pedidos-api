@@ -3,24 +3,21 @@ const { QueryTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const { Product, Classe } = require('../models');
 
+const retornosHttp = require('../middleware/retornosHttp');
+
 const getProducts = async (req, res) => {
   try {    
     const products = await Product.findAll();
     res.json(products);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
+    return retornosHttp.internalError(err, res);
   }
 };
 
 const getProduct = async (req, res) => {
   const { id } = req.params;
   try {    
-    
-    if (!Number.isInteger(Number(id))){
-      return res.status(400).send('Must be Integer');
-    }
-
+        
     const product = await Product.findByPk(id, {
       include: [{
         model: Classe,
@@ -31,13 +28,12 @@ const getProduct = async (req, res) => {
     });
 
     if (!product) {
-      return res.status(404).send('Product not found');
+      return retornosHttp.notFound(res);
     }
 
     res.json(product);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
+  } catch (err) {    
+    retornosHttp.internalError(err, res);
   }
 };
 
@@ -47,8 +43,7 @@ const createProduct = async (req, res) => {
     const product = await Product.create({ descricao, preco });
     res.status(201).json(product);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
+    retornosHttp.internalError(err, res);    
   }
 };
 
@@ -56,15 +51,11 @@ const updateProduct = async (req, res) => {
   const { id } = req.params;
   const { descricao, preco } = req.body;
 
-  try {
-    
-    if (!Number.isInteger(Number(id))){
-      return res.status(400).send('Must be Integer')  ;
-    }
+  try {    
 
     const product = await Product.findByPk(id);
     if (!product) {
-      return res.status(404).send('Product not found');
+      return retornosHttp.notFound(res);
     }
 
     product.descricao = descricao;
@@ -72,29 +63,25 @@ const updateProduct = async (req, res) => {
     await product.save();
     res.json(product);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
+    retornosHttp.internalError(err, res);
   }
 };
 
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
 
-  try {
-    if (!Number.isInteger(Number(id))){
-      return res.status(400).send('Must be Integer')  ;
-    }
+  try {    
 
     const product = await Product.findByPk(id);
     if (!product) {
-      return res.status(404).send('Product not found');
+      return retornosHttp.notFound(res);
     }
 
     await product.destroy();
     res.json({ message: 'Product deleted' });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    return retornosHttp.internalError(err, res);
   }
 };
 
@@ -102,7 +89,7 @@ async function getProductByName(req, res) {
   const { precoMin, descProd } = req.query;
 
   if (!(precoMin) && !(descProd)){
-    return res.status(404).send('Product not found');
+    return retornosHttp.notFound(res);
   }
 
   try {
@@ -130,9 +117,8 @@ async function getProductByName(req, res) {
     });
 
     return res.json(products);
-  } catch (error) {
-    console.error('Error executing custom SQL:', error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+  } catch (error) {    
+    return retornosHttp.internalError(error, res);
   }
 }
 

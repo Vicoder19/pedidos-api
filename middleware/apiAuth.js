@@ -1,7 +1,7 @@
 // middleware/apiAuth.js
 function apiAuth(req, res, next) {
     const apiKey = req.header('x-api-key');
-    console.log('api:', apiKey);
+  
     if (!apiKey) {
       return res.status(401).json({ error: 'API key is missing' });
     }

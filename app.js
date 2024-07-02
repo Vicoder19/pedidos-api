@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const express = require('express');
 const userRoutes = require('./routes/userRoutes');
-const productRoutes = require('./routes/productRoutes');
+const productRoutes = require('./routes/produtoRoutes');
 const classeRoutes = require('./routes/classeRoutes');
 const { default: rateLimit } = require('express-rate-limit');
 //const { syncDatabase } = require('./models');
@@ -29,12 +29,12 @@ app.use('/products', productRoutes);
 app.use('/classe', classeRoutes);
 
 /*SyncDatabase deve ser chamado caso necessite sincronizar alterações feitas
-nas classes para o banco de dados, ou para criar o banco novamente*/
+nas classes para o banco de dados, ou para criar a estrutura do banco*/
 // syncDatabase().then(() => {
-//   app.listen(port, () => {
-//     console.log(`Server running on http://localhost:${port}`);
-//   });
-// });
+//    app.listen(port, () => {
+//      console.log('Database synchronized');
+//    });
+//  });
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
