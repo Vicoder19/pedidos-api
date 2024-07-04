@@ -1,4 +1,3 @@
-// app.js
 //para utilizar a apikey
 require('dotenv').config();
 
@@ -18,6 +17,9 @@ const limiter = rateLimit({
   max: process.env.REQUEST_LIMIT,
   message: 'Too many requests, please try again later.'
 });
+
+//desativando cabeçalho x-powered-by para evitar problemas de segurança
+app.disable('x-powered-by');
 
 //limitador aplicado a todas as rotas
 app.use('/', limiter);
