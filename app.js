@@ -5,6 +5,7 @@ const express = require('express');
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/produtoRoutes');
 const classeRoutes = require('./routes/classeRoutes');
+const pedidoRoutes = require('./routes/pedidoRoutes');
 const { default: rateLimit } = require('express-rate-limit');
 //const { syncDatabase } = require('./models');
 
@@ -29,6 +30,7 @@ app.use(express.json());
 app.use('/users', userRoutes);
 app.use('/products', productRoutes);
 app.use('/classe', classeRoutes);
+app.use('/pedidos', pedidoRoutes);
 
 /*SyncDatabase deve ser chamado caso necessite sincronizar alterações feitas
 nas classes para o banco de dados, ou para criar a estrutura do banco*/
