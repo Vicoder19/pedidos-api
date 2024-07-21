@@ -1,14 +1,14 @@
 // controllers/productController.js
 const { QueryTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const { Product, Classe } = require('../models');
+const { Produto, Classe } = require('../models');
 
 const retornosHttp = require('../middleware/retornosHttp');
 
 const getProdutos = async (req, res) => {
   try {    
-    const products = await Product.findAll();
-    res.json(products);
+    const produtos = await Produto.findAll();
+    res.json(produtos);
   } catch (err) {
     return retornosHttp.internalError(err, res);
   }
@@ -18,7 +18,7 @@ const getProduto = async (req, res) => {
   const { id } = req.params;
   try {    
         
-    const product = await Product.findByPk(id, {
+    const produto = await Produto.findByPk(id, {
       include: [{
         model: Classe,
         as: 'classe',
@@ -27,11 +27,11 @@ const getProduto = async (req, res) => {
 
     });
 
-    if (!product) {
+    if (!produto) {
       return retornosHttp.notFound(res);
     }
 
-    res.json(product);
+    res.json(produto);
   } catch (err) {    
     retornosHttp.internalError(err, res);
   }
@@ -40,8 +40,8 @@ const getProduto = async (req, res) => {
 const createProduto = async (req, res) => {
   const { descricao, preco } = req.body;
   try {
-    const product = await Product.create({ descricao, preco });
-    res.status(201).json(product);
+    const produto = await Produto.create({ descricao, preco });
+    res.status(201).json(produto);
   } catch (err) {
     retornosHttp.internalError(err, res);
   }
@@ -53,15 +53,15 @@ const updateProduto = async (req, res) => {
 
   try {    
 
-    const product = await Product.findByPk(id);
-    if (!product) {
+    const produto = await Produto.findByPk(id);
+    if (!produto) {
       return retornosHttp.notFound(res);
     }
 
-    product.descricao = descricao;
-    product.preco = preco;
-    await product.save();
-    res.json(product);
+    produto.descricao = descricao;
+    produto.preco = preco;
+    await produto.save();
+    res.json(produto);
   } catch (err) {
     retornosHttp.internalError(err, res);
   }
@@ -72,12 +72,12 @@ const deleteProduto = async (req, res) => {
 
   try {    
 
-    const product = await Product.findByPk(id);
-    if (!product) {
+    const produto = await Produto.findByPk(id);
+    if (!produto) {
       return retornosHttp.notFound(res);
     }
 
-    await product.destroy();
+    await produto.destroy();
     res.json({ message: 'Product deleted' });
   } catch (err) {
     console.error(err.message);
@@ -111,12 +111,12 @@ async function getProductByName(req, res) {
       replacements.descProd = `%${descProd}%`; // exemplo de sanitização básica para evitar SQL wildcards
     }
 
-    const products = await sequelize.query(sql, {
+    const produtos = await sequelize.query(sql, {
       type: QueryTypes.SELECT,
       replacements,
     });
 
-    return res.json(products);
+    return res.json(produtos);
   } catch (error) {    
     return retornosHttp.internalError(error, res);
   }

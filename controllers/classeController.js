@@ -1,4 +1,4 @@
-const { Classe } = require('../models');
+const { Classe } = require('../models/classe');
 
 const retornosHttp = require('../middleware/retornosHttp');
 

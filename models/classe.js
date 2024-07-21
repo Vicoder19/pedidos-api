@@ -1,4 +1,4 @@
-const {DataTypes, INTEGER} = require('sequelize');
+const {DataTypes} = require('sequelize');
 const sequelize = require('../config/database');
 
 const Classe = sequelize.define('Classe', {

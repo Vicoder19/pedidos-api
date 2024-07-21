@@ -1,17 +1,19 @@
 // models/index.js
 const sequelize = require('../config/database');
-const Product = require('./produto');
+const Produto = require('./produto');
 const Classe = require('./classe');
 const ItemPedido = require('./itemPedido');
 const Pedido = require('./pedido');
+const { Endereco } = require('./endereco');
+const { Cliente } = require('./cliente');
 
-Product.belongsTo(Classe, {
+Produto.belongsTo(Classe, {
   foreignKey: 'cla_id',
   targetKey: 'cla_id',
   as: 'classe'
 });
 
-Classe.hasMany(Product, {
+Classe.hasMany(Produto, {
   foreignKey: 'cla_id',
   sourceKey: 'cla_id',
   as: 'produto'
@@ -29,6 +31,18 @@ ItemPedido.belongsTo(Pedido, {
   as: 'pedido'
 });
 
+Cliente.hasMany(Endereco, {
+  foreignKey: 'cli_id',
+  sourceKey: 'cli_id',
+  as: 'endereco'
+});
+
+Endereco.belongsTo(Cliente, {
+  foreignKey: 'cli_id',
+  targetKey: 'cli_id',
+  as: 'cliente'
+});
+
 const syncDatabase = async () => {
   try {
     await sequelize.sync();
@@ -39,9 +53,10 @@ const syncDatabase = async () => {
 };
 
 module.exports = {
-  Product,
+  Produto,
   Classe,
   Pedido,
   ItemPedido,
+  Endereco,
   syncDatabase,
 };
