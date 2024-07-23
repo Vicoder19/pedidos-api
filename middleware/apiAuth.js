@@ -1,4 +1,3 @@
-// middleware/apiAuth.js
 function apiAuth(req, res, next) {
     const apiKey = req.header('x-api-key');
   

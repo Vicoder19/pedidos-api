@@ -1,8 +1,6 @@
 const sequelize = require('../config/database');
 const { Pedido, ItemPedido } = require('../models');
 const retornosHttp = require('../middleware/retornosHttp');
-const { Query } = require('pg');
-const { SELECT } = require('sequelize/lib/query-types');
 const QueryTypes = require('sequelize/lib/query-types');
 
 const getPedido = async (req, res) => {

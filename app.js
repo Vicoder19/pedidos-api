@@ -2,12 +2,12 @@
 require('dotenv').config();
 
 const express = require('express');
-const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/produtoRoutes');
 const classeRoutes = require('./routes/classeRoutes');
 const pedidoRoutes = require('./routes/pedidoRoutes');
 const clienteRoutes = require('./routes/clienteRoutes');
 const { default: rateLimit } = require('express-rate-limit');
+const apiAuth = require('./middleware/apiAuth');
 
 const app = express();
 const port = 3000;
@@ -25,9 +25,10 @@ app.disable('x-powered-by');
 //limitador aplicado a todas as rotas
 app.use('/', limiter);
 
+app.use('/', apiAuth);
+
 app.use(express.json());
 
-app.use('/users', userRoutes);
 app.use('/produtos', productRoutes);
 app.use('/classe', classeRoutes);
 app.use('/pedidos', pedidoRoutes);

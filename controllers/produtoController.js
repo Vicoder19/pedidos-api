@@ -1,4 +1,3 @@
-// controllers/productController.js
 const { QueryTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const { Produto, Classe } = require('../models');
@@ -85,6 +84,7 @@ const deleteProduto = async (req, res) => {
   }
 };
 
+//função para testar query params
 async function getProductByName(req, res) {
   const { precoMin, descProd } = req.query;
 
@@ -108,7 +108,7 @@ async function getProductByName(req, res) {
 
     if (descProd) {
       sql += ' AND prd_descricao LIKE :descProd';
-      replacements.descProd = `%${descProd}%`; // exemplo de sanitização básica para evitar SQL wildcards
+      replacements.descProd = `%${descProd}%`;  
     }
 
     const produtos = await sequelize.query(sql, {
